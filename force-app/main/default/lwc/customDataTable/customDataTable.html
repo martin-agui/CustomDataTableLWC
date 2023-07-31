@@ -1,0 +1,88 @@
+<template>
+    <div class="slds-scrollable">
+      <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+          <tr class="slds-text-title_caps">
+            <template for:each={columns} for:item="column">
+                <th key={column.fieldName} scope="col">
+                    {column.label}
+                </th>
+            </template>
+          </tr>
+        </thead>
+        <tbody>
+            <template for:each={records} for:item="record" for:index="index">
+                <tr key={record.Id}>
+                  <td data-label="Id">{record.Id}</td>
+                  <td data-label="Nombre">{record.Name}</td>
+                  <td data-label="Motivo">
+                    <template if:false={record.editRow}>
+                        <div>{record.Motivo}</div>
+                    </template>
+                    <template if:true={record.editRow}>
+                      <lightning-input
+                      type="text"
+                      value={record.Motivo}
+                      data-index={index}
+                      data-field="Motivo"
+                      onchange={handleInputChange}
+                    ></lightning-input>
+                    </template>
+                  </td>
+                  <td data-label="Observación">
+                    <template if:false={record.editRow}>
+                        <div>{record.Observacion}</div>
+                    </template>
+                    <template if:true={record.editRow}>
+                        <lightning-input
+                        type="text"
+                        value={record.Observacion}
+                        data-index={index}
+                        data-field="Observacion"
+                        onchange={handleInputChange}
+                        ></lightning-input>
+                    </template>
+                  </td>
+                  <td data-label="">
+                    <template if:false={record.editRow}>
+                        <lightning-button-icon
+                            label="editButton"
+                            icon-name="utility:edit"
+                            variant="bare"
+                            alternative-text="Edit"
+                            title="Edit"
+                            data-index={index}
+                            data-id={record.Id}
+                            data-field="Motivo"
+                            onclick={handleEditClick}>
+                                <label>edit</label>
+                        </lightning-button-icon>
+                    </template>
+                    <template if:true={record.editRow}>
+                        <lightning-button-icon
+                            icon-name="utility:save"
+                            variant="bare"
+                            alternative-text="Save"
+                            title="Save"
+                            data-index={index}
+                            data-id={record.Id}
+                            data-field="Motivo"
+                            onclick={handleSaveClick}
+                        ></lightning-button-icon>
+                    </template>
+                    <lightning-button-icon
+                      icon-name="utility:delete"
+                      variant="bare"
+                      alternative-text="Delete"
+                      title="Delete"
+                      data-id={record.Id}
+                      data-index={index}
+                      onclick={handleDelete}
+                    ></lightning-button-icon>
+                  </td>
+                </tr>
+              </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
